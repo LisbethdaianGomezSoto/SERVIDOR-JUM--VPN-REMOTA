@@ -1,0 +1,13 @@
+# ============================================================
+# FortiGate - unico paso por CLI: dar acceso a la GUI por port4
+# Todo lo demas se configura y demuestra por GUI
+# ============================================================
+config system interface
+  edit port4
+    set mode static
+    set ip 192.168.99.1 255.255.255.0
+    set allowaccess https http ping ssh
+  next
+end
+
+# En PC-ADMINISTRATIVA: IP 192.168.99.x/24 y abrir http://192.168.99.1

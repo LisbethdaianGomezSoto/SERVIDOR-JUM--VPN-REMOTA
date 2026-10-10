@@ -1,0 +1,2 @@
+# PENDIENTE: pegar aqui la exportacion de la configuracion de SW-1
+# Comando: show running-config

@@ -1,0 +1,50 @@
+# ============================================================
+# Web Server (contenedor Linux en GNS3)
+# ============================================================
+
+# --- 1. Red: Network configuration del nodo (Edit config en GNS3) ---
+auto eth0
+iface eth0 inet static
+  address 10.7.1.138
+  netmask 255.255.255.248
+  gateway 10.7.1.137
+  up echo "nameserver 8.8.8.8" > /etc/resolv.conf
+
+# Equivalente inmediato por consola (se pierde al reiniciar)
+ip addr flush dev eth0
+ip addr add 10.7.1.138/29 dev eth0
+ip link set eth0 up
+ip route add default via 10.7.1.137
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+
+# --- 2. Paquetes (requiere salida temporal a internet) ---
+apt update
+apt install -y openssh-server xrdp apache2 dbus-x11 openbox xterm
+
+# --- 3. HTTPS y pagina del Sistema de Caja ---
+a2enmod ssl
+a2ensite default-ssl
+echo "<h1>Sistema de Caja</h1>" > /var/www/html/index.html
+service apache2 restart
+
+# --- 4. Usuario para Putty y xrdp (definir una contrasena) ---
+useradd -m -s /bin/bash rdpuser
+passwd rdpuser
+
+# --- 5. Escritorio minimo para la sesion RDP ---
+echo "openbox-session" > /home/rdpuser/.xsession
+chown rdpuser:rdpuser /home/rdpuser/.xsession
+chmod +x /home/rdpuser/.xsession
+
+# --- 6. Arranque de servicios ---
+mkdir -p /run/sshd
+ssh-keygen -A
+/usr/sbin/sshd
+service apache2 start
+service xrdp restart
+
+# --- 7. Verificacion ---
+ip addr show eth0
+ip route
+netstat -ln | grep -E ":22|:443|:3389"
+id rdpuser

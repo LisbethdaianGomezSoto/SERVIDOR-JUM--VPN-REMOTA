@@ -1,0 +1,59 @@
+! ============================================================
+! R-1 - Router Cisco (gateway de la VLAN 10, DHCP y NAT)
+! ============================================================
+enable
+configure terminal
+no ip domain-lookup
+hostname R-1
+banner motd #Lisbeth Gomez 2025-0701#
+username Admin privilege 15 secret cisco
+enable secret cisco
+ip domain-name red.local
+! IOS antiguos: usar "crypto key generate rsa" y escribir 2048 cuando pregunte los bits
+crypto key generate rsa modulus 2048
+ip ssh version 2
+line console 0
+ login local
+ exit
+line vty 0 4
+ login local
+ transport input ssh
+ exit
+! --- DHCP VLAN 10 ---
+ip dhcp excluded-address 10.7.1.1 10.7.1.9
+ip dhcp pool VLAN10
+ network 10.7.1.0 255.255.255.128
+ default-router 10.7.1.1
+ dns-server 8.8.8.8
+ exit
+! --- Interfaces ---
+interface f0/0
+ description Enlace al ISP
+ ip address 203.7.1.2 255.255.255.252
+ ip nat outside
+ speed 100
+ duplex full
+ no shutdown
+interface f0/1
+ description Trunk hacia SW-1
+ no ip address
+ speed 100
+ duplex full
+ no shutdown
+interface f0/1.10
+ description VLAN 10 USUARIOS
+ encapsulation dot1Q 10
+ ip address 10.7.1.1 255.255.255.128
+ ip nat inside
+ exit
+! --- Ruta por defecto y NAT ---
+ip route 0.0.0.0 0.0.0.0 203.7.1.1
+! El trafico hacia las LAN de los servidores NO se traduce
+ip access-list extended NAT-VLAN10
+ deny ip 10.7.1.0 0.0.0.127 10.7.1.136 0.0.0.7
+ deny ip 10.7.1.0 0.0.0.127 10.7.1.144 0.0.0.7
+ permit ip 10.7.1.0 0.0.0.127 any
+ exit
+ip nat inside source list NAT-VLAN10 interface f0/0 overload
+end
+write memory

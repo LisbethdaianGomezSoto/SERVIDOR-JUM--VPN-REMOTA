@@ -1,0 +1,2 @@
+# PENDIENTE: pegar aqui la salida de la consola del Web Server
+# ip addr show eth0 ; ip route ; netstat -ln | grep -E ":22|:443|:3389" ; id rdpuser ; which sshd xrdp apache2
