@@ -1,2 +1,100 @@
-# PENDIENTE: pegar aqui la exportacion de la configuracion de ISP
-# Comando: show running-config
+ISP#show run
+Building configuration...
+
+Current configuration : 1583 bytes
+!
+version 12.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname ISP
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$twmN$KB.u3MiWvKdRRTG.8hEMO0
+!
+no aaa new-model
+memory-size iomem 5
+no ip icmp rate-limit unreachable
+ip cef
+!
+!
+ip auth-proxy max-nodata-conns 3
+ip admission max-nodata-conns 3
+!
+!
+no ip domain lookup
+ip domain name red.local
+!
+!
+!
+!
+username Admin privilege 15 secret 5 $1$x0Rz$0apxIttB0B624hmtsWCMq0
+!
+!
+ip tcp synwait-time 5
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 203.7.1.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly
+ speed 100
+ full-duplex
+!
+interface FastEthernet0/1
+ ip address 198.7.1.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly
+ speed 100
+ full-duplex
+!
+interface FastEthernet1/0
+ ip address dhcp
+ ip nat outside
+ ip virtual-reassembly
+ duplex auto
+ speed auto
+!
+ip forward-protocol nd
+ip route 10.7.1.0 255.255.255.128 203.7.1.2
+ip route 10.7.1.136 255.255.255.248 198.7.1.2
+ip route 10.7.1.144 255.255.255.248 198.7.1.2
+!
+no ip http server
+no ip http secure-server
+ip nat inside source list 1 interface FastEthernet1/0 overload
+!
+access-list 1 permit 10.7.1.0 0.0.0.255
+access-list 1 permit 203.7.1.0 0.0.0.3
+access-list 1 permit 198.7.1.0 0.0.0.3
+no cdp log mismatch duplex
+!
+!
+control-plane
+!
+!
+!
+banner motd ^CLisbeth Gomez 2025-0701^C
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ login local
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+end
+
+ISP#
