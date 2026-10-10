@@ -896,6 +896,8 @@ Comandos: [`07-Verificacion-cliente.ps1`](scripts/07-Verificacion-cliente.ps1) y
 <div align="center">
 
 <img src="images/33-pruebas-jump-webserver.png" alt="Pruebas del Jump al Web Server" width="75%">
+<img width="465" height="287" alt="Captura de pantalla 2026-10-10 035145" src="https://github.com/user-attachments/assets/47bbec41-35a3-4ff6-be2e-cc8e705a59fa" />
+
 
 *📷 Imagen 33: 22, 443 y 3389 permitidos; 80 bloqueado.*
 
