@@ -1,9 +1,74 @@
-/ # ip addr show eth0
-6: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel qlen 1000
-    link/ether 02:42:56:0a:bf:00 brd ff:ff:ff:ff:ff:ff
-    inet 10.7.1.138/29 scope global eth0
-       valid_lft forever preferred_lft forever
-/ # ip route
-default via 10.7.1.137 dev eth0
-10.7.1.136/29 dev eth0 scope link  src 10.7.1.138
+############################################################
+# WEB SERVER - Configuracion aplicada
+# Equipo   : contenedor Linux (GNS3)      Hostname: WEB-SERVER
+# Autora   : Lisbeth Gomez - 2025-0701
+# Nota     : un contenedor Linux no tiene "running-config" nativo;
+#            este archivo reune la configuracion aplicada al servidor.
+############################################################
+
+
+##### 1. RED  (Edit config del nodo en GNS3 -> /etc/network/interfaces)
+auto eth0
+iface eth0 inet static
+  address 10.7.1.138
+  netmask 255.255.255.248
+  gateway 10.7.1.137
+  up echo "nameserver 8.8.8.8" > /etc/resolv.conf
+
+
+##### 2. VERIFICACION DE RED
+# $ ip addr
+#   eth0: inet 10.7.1.138/29 scope global eth0
+# $ ip route
+#   default via 10.7.1.137 dev eth0
+#   10.7.1.136/29 dev eth0 scope link  src 10.7.1.138
+
+
+##### 3. DNS  (/etc/resolv.conf)
+nameserver 8.8.8.8
+
+
+##### 4. SERVICIOS
+# HTTPS  -> Apache2 (443)  : Sistema de Caja
+# SSH    -> OpenSSH (22)
+# RDP    -> xrdp (3389)    : login con el usuario rdpuser
+
+mkdir -p /run/sshd
+/usr/sbin/sshd
+service xrdp start
+
+
+##### 5. USUARIOS LOCALES
+# rdpuser : home /home/rdpuser, shell /bin/bash (usado en Putty y xrdp)
+# La contrasena no se publica en el repositorio.
+useradd -m -s /bin/bash rdpuser
+passwd rdpuser
+
+
+##### 6. PUERTOS EN ESCUCHA  (ss -tln)
+# State  Recv-Q Send-Q Local Address:Port Peer Address:Port
+# LISTEN 0      511          0.0.0.0:443       0.0.0.0:*
+# LISTEN 0      128          0.0.0.0:22        0.0.0.0:*
+# LISTEN 0      511          0.0.0.0:80        0.0.0.0:*
+# LISTEN 0      2                  *:3389            *:*
+# LISTEN 0      2              [::1]:3350         [::]:*
+# LISTEN 0      128             [::]:22           [::]:*
+
+
+##### 7. ACCESO PERMITIDO (politica JUMP-WEB en el FortiGate)
+# Origen   : Jump Server 10.7.1.146
+# Destino  : Web Server 10.7.1.138
+# Servicios: HTTPS (443), SSH (22), RDP (3389)
+# El puerto 80 no esta permitido y el servidor no tiene salida a Internet.
+
+
+##### 8. COMANDOS PARA EXPORTAR LA CONFIGURACION REAL
+# cat /etc/network/interfaces
+# cat /etc/resolv.conf
+# ip addr
+# ip route
+# ss -tln
+# grep rdpuser /etc/passwd
+
+
 
