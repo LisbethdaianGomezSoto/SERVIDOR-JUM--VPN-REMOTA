@@ -18,12 +18,11 @@
 
 ## 🎥 Video demostrativo
 
-> [!IMPORTANT]
-> 📌 **Pendiente:** reemplazar `URL_DEL_VIDEO` por el enlace del video y subir la portada como `images/00-miniatura-video.png`.
+
 
 <div align="center">
 
-[![▶ Ver video demostrativo](images/00-miniatura-video.png)](URL_DEL_VIDEO)
+https://youtu.be/T1Hyw5M7BmU
 
 </div>
 
