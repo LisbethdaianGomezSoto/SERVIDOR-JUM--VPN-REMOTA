@@ -794,9 +794,17 @@ Test-NetConnection 10.7.1.138 -Port 80
 
 <img src="images/23-forticlient-configuracion.png" alt="Configuración de FortiClient" width="70%">
 
+
+<img width="1175" height="213" alt="Captura de pantalla 2026-10-10 164031" src="https://github.com/user-attachments/assets/18a98016-d466-4041-8a8c-4d5a235bc6c2" />
+
+
 *📷 Imagen 23: conexión IPsec en FortiClient.*
 
-<img src="images/36-forticlient-avanzado.png" alt="Ajustes avanzados de FortiClient" width="70%">
+<div align="center">
+
+
+<img width="553" height="443" alt="Captura de pantalla 2026-10-10 024224" src="https://github.com/user-attachments/assets/ab56fa58-1013-4aac-9212-1307550c3bc6" />
+
 
 *📷 Imagen 36: ajustes avanzados de FortiClient (fases 1 y 2).*
 
@@ -844,9 +852,16 @@ Comandos: [`07-Verificacion-cliente.ps1`](scripts/07-Verificacion-cliente.ps1) y
 
 *📷 Imagen 25: FortiClient conectado y `ipconfig` con el adaptador `10.10.10.x`.*
 
+<img width="507" height="370" alt="Captura de pantalla 2026-10-10 163959" src="https://github.com/user-attachments/assets/0f5babde-5bd0-413c-b141-3e226e7c36af" />
+
+<div align="center">
+
 <img src="images/26-fortigate-tunel-activo.png" alt="Túnel activo en el FortiGate" width="85%">
 
 *📷 Imagen 26: túnel activo en el FortiGate (**VPN Events** o **Dashboard**).*
+
+<img width="1175" height="213" alt="Captura de pantalla 2026-10-10 164031" src="https://github.com/user-attachments/assets/cd9be2b1-b3ec-49a4-b8b4-8b3ef2c18590" />
+
 
 </div>
 
