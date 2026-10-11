@@ -847,8 +847,6 @@ Comandos: [`07-Verificacion-cliente.ps1`](scripts/07-Verificacion-cliente.ps1) y
 
 *📷 Imagen 25: FortiClient conectado y `ipconfig` con el adaptador `10.10.10.x`.*
 
-<img width="1175" height="213" alt="Túnel activo en el FortiGate" src="https://github.com/user-attachments/assets/cd9be2b1-b3ec-49a4-b8b4-8b3ef2c18590" />
-
 <div align="center">
 
 <img src="images/26-fortigate-tunel-activo.png" alt="Túnel activo en el FortiGate" width="85%">
